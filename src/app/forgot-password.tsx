@@ -13,7 +13,7 @@ export default function ForgotPasswordScreen() {
   const handleSubmit = async () => {
     setLoading(true);
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: 'multimaderamovil://reset-password',
+      redirectTo: 'multimaderareactnative://reset-password',
     });
     setLoading(false);
     Alert.alert(
