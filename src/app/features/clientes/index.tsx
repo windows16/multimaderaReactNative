@@ -3,10 +3,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { Toast } from '@/components/toast';
+import { useTheme } from '@/hooks/use-theme';
 import { useGetClientesQuery } from '@/features/clientes/api/clientesApi';
 import { formatError } from '@/utils/format-error';
 
 export default function ClientesScreen() {
+  const theme = useTheme();
   const { data, isLoading, error } = useGetClientesQuery({ page: 1, limit: 10 });
 
   if (isLoading) return <ActivityIndicator />;
@@ -21,7 +23,9 @@ export default function ClientesScreen() {
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator>
         {data?.data.map((cliente) => (
-          <View key={cliente.numeroDeCliente} style={styles.clientRow}>
+          <View
+            key={cliente.numeroDeCliente}
+            style={[styles.clientRow, { backgroundColor: theme.backgroundElement }]}>
             <ThemedText type="smallBold">{cliente.nombre}</ThemedText>
             <ThemedText themeColor="textSecondary">{cliente.telefono}</ThemedText>
           </View>
@@ -46,6 +50,5 @@ const styles = StyleSheet.create({
     gap: 4,
     padding: 16,
     borderRadius: 12,
-    backgroundColor: '#F0F0F3',
   },
 });

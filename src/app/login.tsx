@@ -5,11 +5,13 @@ import { Link, Redirect } from 'expo-router';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Toast } from '@/components/toast';
+import { useTheme } from '@/hooks/use-theme';
 import { clearAuthError, signIn } from '@/store/authSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 export default function LoginScreen() {
   const dispatch = useAppDispatch();
+  const theme = useTheme();
   const { user, loading, error } = useAppSelector((state) => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,24 +38,30 @@ export default function LoginScreen() {
           autoCapitalize="none"
           keyboardType="email-address"
           placeholder="Correo electrónico"
+          placeholderTextColor={theme.textSecondary}
           value={email}
           onChangeText={setEmail}
-          style={styles.input}
+          style={[styles.input, { color: theme.text, borderColor: theme.border, backgroundColor: theme.backgroundElement }]}
         />
         <TextInput
           secureTextEntry
           placeholder="Contraseña"
+          placeholderTextColor={theme.textSecondary}
           value={password}
           onChangeText={setPassword}
-          style={styles.input}
+          style={[styles.input, { color: theme.text, borderColor: theme.border, backgroundColor: theme.backgroundElement }]}
         />
         <Pressable
           disabled={loading || !email || !password}
           onPress={handleSubmit}
-          style={[styles.button, (loading || !email || !password) && styles.disabled]}>
+          style={[
+            styles.button,
+            { backgroundColor: theme.accent },
+            (loading || !email || !password) && styles.disabled,
+          ]}>
           {loading ? <ActivityIndicator color="#fff" /> : <ThemedText style={styles.buttonText}>Ingresar</ThemedText>}
         </Pressable>
-        <Link href="./forgot-password" style={styles.link}>
+        <Link href="./forgot-password" style={[styles.link, { color: theme.accent }]}>
           ¿Olvidaste tu contraseña?
         </Link>
       </View>
@@ -64,9 +72,9 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 24 },
   card: { gap: 16 },
-  input: { borderWidth: 1, borderColor: '#c9cdd3', borderRadius: 10, padding: 14, fontSize: 16 },
-  button: { alignItems: 'center', backgroundColor: '#208AEF', borderRadius: 10, padding: 14 },
+  input: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16 },
+  button: { alignItems: 'center', borderRadius: 10, padding: 14 },
   disabled: { opacity: 0.5 },
   buttonText: { color: '#fff', fontWeight: '600' },
-  link: { color: '#208AEF', textAlign: 'center', marginTop: 4 },
+  link: { textAlign: 'center', marginTop: 4 },
 });

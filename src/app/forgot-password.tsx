@@ -5,8 +5,10 @@ import { Link } from 'expo-router';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { supabase } from '@/config/supabase';
+import { useTheme } from '@/hooks/use-theme';
 
 export default function ForgotPasswordScreen() {
+  const theme = useTheme();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -30,22 +32,35 @@ export default function ForgotPasswordScreen() {
         autoCapitalize="none"
         keyboardType="email-address"
         placeholder="Correo electrónico"
+        placeholderTextColor={theme.textSecondary}
         value={email}
         onChangeText={setEmail}
-        style={styles.input}
+        style={[
+          styles.input,
+          {
+            color: theme.text,
+            borderColor: theme.border,
+            backgroundColor: theme.backgroundElement,
+          },
+        ]}
       />
-      <Pressable disabled={loading || !email} onPress={() => void handleSubmit()} style={styles.button}>
+      <Pressable
+        disabled={loading || !email}
+        onPress={() => void handleSubmit()}
+        style={[styles.button, { backgroundColor: theme.accent }]}>
         <ThemedText style={styles.buttonText}>{loading ? 'Enviando...' : 'Enviar enlace'}</ThemedText>
       </Pressable>
-      <Link href="./login" style={styles.link}>Volver a iniciar sesión</Link>
+      <Link href="./login" style={[styles.link, { color: theme.accent }]}>
+        Volver a iniciar sesión
+      </Link>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', gap: 16, padding: 24 },
-  input: { borderWidth: 1, borderColor: '#c9cdd3', borderRadius: 10, padding: 14, fontSize: 16 },
-  button: { alignItems: 'center', backgroundColor: '#208AEF', borderRadius: 10, padding: 14 },
+  input: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16 },
+  button: { alignItems: 'center', borderRadius: 10, padding: 14 },
   buttonText: { color: '#fff', fontWeight: '600' },
-  link: { color: '#208AEF', textAlign: 'center' },
+  link: { textAlign: 'center' },
 });
