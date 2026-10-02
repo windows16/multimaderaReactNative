@@ -1,4 +1,4 @@
-import type { ClientesResponse } from '@/features/models/types';
+import type { ClientesResponse } from '@/features/clientes/models/types';
 import { baseApi } from '@/services/api/baseApi';
 
 export const clientesApi = baseApi.injectEndpoints({

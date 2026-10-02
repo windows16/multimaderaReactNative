@@ -16,7 +16,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  if (user) return <Redirect href="/features/clientes" />;
+  if (user) return <Redirect href="/features/home/index" />;
 
   const handleSubmit = () => {
     void dispatch(signIn({ email: email.trim(), password }));

@@ -15,7 +15,10 @@ export default function ClientesScreen() {
   if (error) {
     return <Toast visible message={formatError(error)} />;
   }
-
+  if (!data) {
+    return <Toast visible message="No se encontraron clientes" />;
+  }
+  
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <ScrollView
