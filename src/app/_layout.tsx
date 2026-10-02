@@ -34,7 +34,7 @@ function AuthLayout() {
       <AnimatedSplashOverlay />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={Boolean(user)}>
-          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="features/clientes" />
         </Stack.Protected>
         <Stack.Protected guard={!user}>
           <Stack.Screen name="login" />

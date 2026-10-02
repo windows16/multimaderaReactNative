@@ -8,6 +8,7 @@
     "@reduxjs/toolkit": "^2.12.0",
     "@supabase/supabase-js": "^2.117.1",
     "expo": "~57.0.25",
+    "expo-clipboard": "~57.0.2",
     "expo-constants": "~57.0.19",
     "expo-device": "~57.0.2",
     "expo-font": "~57.0.4",

@@ -2,6 +2,7 @@ import type { Session, User } from '@supabase/supabase-js';
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { supabase } from '@/config/supabase';
+import { formatError } from '@/utils/format-error';
 
 type AuthState = {
   session: Session | null;
@@ -18,23 +19,35 @@ const initialState: AuthState = {
 };
 
 export const initializeAuth = createAsyncThunk('auth/initialize', async () => {
-  const { data, error } = await supabase.auth.getSession();
-  if (error) throw error;
-  return data.session;
+  try {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) throw error;
+    return data.session;
+  } catch (error) {
+    throw new Error(formatError(error));
+  }
 });
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
   async ({ email, password }: { email: string; password: string }) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-    return data.session;
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      return data.session;
+    } catch (error) {
+      throw new Error(formatError(error));
+    }
   },
 );
 
 export const signOut = createAsyncThunk('auth/signOut', async () => {
-  const { error } = await supabase.auth.signOut();
-  if (error) throw error;
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  } catch (error) {
+    throw new Error(formatError(error));
+  }
 });
 
 const authSlice = createSlice({
